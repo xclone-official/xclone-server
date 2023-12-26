@@ -1,0 +1,30 @@
+{
+  "name": "twitclone-server",
+  "version": "1.0.0",
+  "description": "This is the server app of Twitclone",
+  "main": "index.js",
+  "author": "Niraj Kumar Chaurasiya",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "file-type": "^18.5.0",
+    "helmet": "^7.0.0",
+    "mongoose": "^7.5.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "node-html-parser": "^6.1.10",
+    "nodemailer": "^6.9.4",
+    "nodemon": "^3.0.1",
+    "socket.io": "^4.7.2",
+    "twilio": "^4.19.0",
+    "uuid": "^9.0.1"
+  }
+}
