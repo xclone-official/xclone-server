@@ -262,7 +262,7 @@ app.use(function (req, res, next) {
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.get("/", (req, res) => {
   res.send({
-    msg: "Working from Bean Stalk",
+    msg: "Hey there!!",
   });
 });
 
