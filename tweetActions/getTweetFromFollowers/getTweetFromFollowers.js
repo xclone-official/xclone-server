@@ -15,18 +15,12 @@ router.get("/:userId", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const followersIds = user.followers.map((follower) => follower.id);
+    const followersIds = user.followers.map((follower) => follower.user_id);
 
     // Retrieve tweets from users who follow the current user
-    const tweets = await TweetModel.find({ authorId: { $in: followersIds } })
-      .sort({ createdAt: -1 }) // Sort by most recent tweets first
-      .populate("likes")
-      .populate("comments.commentLike")
-      .populate("comments.commentreplies.repliesLike");
-
+    const tweets = await TweetModel.find({ authorId: { $in: followersIds } });
     res.status(200).json({ tweets: tweets });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
