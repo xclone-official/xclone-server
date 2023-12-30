@@ -14,9 +14,7 @@ Router.get("/", async (req, res) => {
 Router.put("/:tweetId/:userId", async (req, res) => {
   try {
     const { tweetId, userId } = req.params;
-    // console.log("users", users);
     // users?.forEach((e) => {
-    //   console.log("userdata", e);
     // });
 
     if (!tweetId || !userId) {
@@ -116,7 +114,6 @@ Router.put("/:tweetId/:userId", async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       status: 3,
       msg: "Internal server error.",

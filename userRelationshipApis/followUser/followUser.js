@@ -5,7 +5,6 @@ Router.put("/:userId", async (req, res) => {
   try {
     const { userId } = req.params; // other user id
     const { id } = req.body; //myid
-    // console.log(id);
     if (!userId || !id) {
       return res.status(200).send({
         status: 2,
@@ -23,7 +22,6 @@ Router.put("/:userId", async (req, res) => {
     const otherUserNecessaryData = {
       user_id: otherUserData._id,
     };
-    // console.log(otherUserData);
     const myProfile = await UserModel.findById(id);
 
     if (!myProfile) {
@@ -64,7 +62,6 @@ Router.put("/:userId", async (req, res) => {
       status: 3,
       msg: "Internal server error.",
     });
-    console.log(error);
   }
 });
 

@@ -5,9 +5,7 @@ const UserModel = require("../../Models/UserModel/UserModel");
 Router.post("/", async (req, res) => {
   try {
     const { username, password } = req.body;
-    // console.log(username, password);
     const updatedUserName = username?.trim()?.toLowerCase();
-    console.log(updatedUserName);
     const isUserExist = await UserModel.findOne({ username: updatedUserName });
     if (isUserExist) {
       const isAccountActivated = await isUserExist.isActivated;

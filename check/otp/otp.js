@@ -4,7 +4,6 @@ const Router = require("express").Router();
 Router.get("/:otp/:email", async (req, res) => {
   try {
     const { otp, email } = req.params;
-    console.log(otp, email);
 
     if (!otp) {
       return res.status(201).send({

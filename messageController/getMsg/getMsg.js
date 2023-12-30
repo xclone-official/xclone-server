@@ -4,7 +4,6 @@ const { io } = require("../../app");
 Router.get("/:senderId/:receiverId", async (req, res) => {
   try {
     const { senderId, receiverId } = req.params;
-    console.log("yeah");
     const allChats = await MessageModel.find({
       $or: [
         { senderId: senderId, receiverId: receiverId },
@@ -18,7 +17,6 @@ Router.get("/:senderId/:receiverId", async (req, res) => {
       allMessages: allChats,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).send({
       msg: "Server error",
       status: "3",

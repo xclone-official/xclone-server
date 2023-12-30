@@ -69,7 +69,6 @@ Router.post("/:tweetId/:userId", async (req, res) => {
         tweet: requiredTweetData,
       });
     } else {
-      console.log("to remove bookmark");
       isUserExist.bookmark = isUserExist.bookmark.filter(
         (e) => e.tweetId !== tweetId
       );
@@ -111,7 +110,6 @@ Router.post("/:tweetId/:userId", async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       status: 3,
       msg: "Internal server error.",

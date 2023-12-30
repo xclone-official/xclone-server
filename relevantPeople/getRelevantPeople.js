@@ -42,7 +42,6 @@ Router.get("/:userIdOrName", async (req, res) => {
       tweets: relevantUserData,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).send({
       status: 5,
       msg: "Internal server error.",

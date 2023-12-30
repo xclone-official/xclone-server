@@ -6,8 +6,6 @@ Router.post("/:tweetId", async (req, res) => {
   try {
     const { tweetId } = req.params;
     const { commentText, commentUserId } = req.body;
-    console.log(tweetId);
-    console.log(commentText, commentUserId);
     if (!commentUserId) {
       return res.status(200).send({
         status: 2,
@@ -102,7 +100,6 @@ Router.post("/:tweetId", async (req, res) => {
       allTweets: getAllTweet,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       status: 3,
       msg: "Internal Server error",

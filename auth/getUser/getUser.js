@@ -6,14 +6,12 @@ Router.get("/:identifier", async (req, res) => {
   try {
     let { identifier } = req.params;
     identifier = identifier && identifier.trim(); // Remove leading and trailing spaces
-    console.log("Identifier:", identifier);
 
     // Check if the identifier looks like a valid ObjectId
     const objectIdPattern = /^[0-9a-fA-F]{24}$/;
     const isObjectId = objectIdPattern.test(identifier);
 
     let getUser;
-    console.log("isObjectId", isObjectId);
     if (isObjectId) {
       // If it looks like a valid ObjectId, query by _id
       getUser = await UserModel.findById(identifier);
@@ -23,7 +21,6 @@ Router.get("/:identifier", async (req, res) => {
     }
 
     if (getUser) {
-      console.log("User found:", getUser);
       return res.status(200).send({
         status: 1,
         msg: "User retrieved successfully",
@@ -31,7 +28,6 @@ Router.get("/:identifier", async (req, res) => {
       });
     }
 
-    console.log("User not found for identifier:", identifier);
     return res.status(404).send({
       status: 2,
       msg: "User with that username or _id doesn't exist",

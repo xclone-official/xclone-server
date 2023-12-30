@@ -39,7 +39,6 @@ Router.post("/", async (req, res) => {
       c._id.equals(commentId)
     );
     // Check if userId is not already in the commentSeen array
-    // console.log(comment[0]);
     // Check if the user has already liked the comment
     const isLiked = comment[0].commentLike.some(
       (like) => like.userid === userId

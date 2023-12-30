@@ -79,7 +79,6 @@ Router.post("/", upload.array("tweetmedia", 2), async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       status: 3,
       msg: "Internal server error.",

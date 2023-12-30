@@ -20,9 +20,7 @@ const io = require("socket.io")(httpServer, {
 });
 module.exports = { io };
 io.on("connection", (socket) => {
-  socket.on("connection", () => {
-    console.log("Someone is connected");
-  });
+  socket.on("connection", () => {});
 
   socket.on("newUser", (username) => {
     addNewUser(username, socket.id);
@@ -57,12 +55,9 @@ io.on("connection", (socket) => {
           receiverUser.allNotifications.push(dataToPush);
           await receiverUser.save();
           io.to(receiveUser.socketId).emit("followed", dataToPush);
-          console.log("receiveUser.socketId", receiveUser.socketId);
         } else {
-          console.log("Notification already exists");
         }
       } else {
-        console.log("User not found");
       }
     }
   );
@@ -75,8 +70,6 @@ io.on("connection", (socket) => {
         username: receiverUsername,
       });
       const receiveUser = getUser(receiverUsername);
-      console.log("userss", users);
-      console.log("receiveUser", receiveUser);
       if (senderUser && receiverUser && receiveUser) {
         const dataToPush = {
           authorName: senderUser.fullname,
@@ -99,15 +92,10 @@ io.on("connection", (socket) => {
         ) {
           receiverUser.allNotifications.push(dataToPush);
           await receiverUser.save();
-
-          console.log("receiveUser.socketId", receiveUser.socketId);
         } else {
-          console.log("Notification already exists");
         }
         io.to(receiveUser.socketId).emit("likedtweet", dataToPush);
-        console.log("Can't add to db");
       } else {
-        console.log("User not found");
       }
     }
   );
@@ -127,8 +115,6 @@ io.on("connection", (socket) => {
         username: receiverUsername,
       });
       const receiveUser = getUser(receiverUsername);
-      console.log("userss", users);
-      console.log("receiveUser", receiveUser);
       if (senderUser && receiverUser && receiveUser) {
         const dataToPush = {
           authorName: senderUser.fullname,
@@ -141,19 +127,14 @@ io.on("connection", (socket) => {
           commentText: commentText,
           isSeen: false, // You can set this property accordingly
         };
-        console.log(senderUsername, receiverUsername);
         if (senderUsername === receiverUsername) {
-          console.log("Can't add to db,", senderUsername, receiverUsername);
         } else {
           receiverUser.allNotifications.push(dataToPush);
           await receiverUser.save();
 
-          console.log("receiveUser.socketId", receiveUser.socketId);
-
           io.to(receiveUser.socketId).emit("replytweet", dataToPush);
         }
       } else {
-        console.log("User not found");
       }
     }
   );
@@ -171,7 +152,6 @@ io.on("connection", (socket) => {
         });
         io.to(receiveUser?.socketId).emit("setAllMsg", allChats);
       } else {
-        // console.log("Can't get msg");
       }
     }
   );
@@ -183,11 +163,9 @@ io.on("connection", (socket) => {
   // AddMsg socket
   socket.on("addMsg", async (fd) => {
     const { senderId, senderUsername, receiverId, message, file } = fd;
-    console.log(senderId, senderUsername, receiverId, message);
     if (senderId && senderUsername && receiverId && message) {
       const senderUser = getUser(senderUsername);
       const receiverUser = await UserModel.findById(receiverId);
-      // if (file) console.log(Buffer.isBuffer(file));
       if (receiverUser) {
         const getReceiverUser = getUser(receiverUser?.username);
 
@@ -215,13 +193,10 @@ io.on("connection", (socket) => {
 
           io.to(senderUser?.socketId).emit("sendAddMsg", AllMsg);
         } else {
-          console.log("Can't find user1");
         }
       } else {
-        console.log("Can't find user2");
       }
     } else {
-      console.log("Can't add msg");
     }
   });
 });
@@ -320,12 +295,9 @@ app.use("/login/oauth/access_token", async (req, res) => {
         code: code,
       }
     );
-    console.log(response.data);
     const access_token = new URLSearchParams(response.data).get("access_token");
     return res.send({ res: access_token });
-  } catch (error) {
-    console.log("error", error);
-  }
+  } catch (error) {}
 });
 const getEmail = async (access_token) => {
   try {
@@ -338,9 +310,7 @@ const getEmail = async (access_token) => {
       (item) => item.primary === true && item.verified === true
     );
     return selectedArray[0].email;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 app.use("/github/getUser/:access_token", async (req, res) => {
   try {
@@ -353,9 +323,7 @@ app.use("/github/getUser/:access_token", async (req, res) => {
     });
     const email = getEmail(access_token);
     return res.send({ res: response.data, email: email });
-  } catch (error) {
-    console.log("error", error);
-  }
+  } catch (error) {}
 });
 
 // Check password, email
@@ -365,6 +333,4 @@ app.use("/check", require("./check/check"));
 
 app.use("/getPeople", require("./people_actions/people_actions"));
 
-httpServer.listen(PORT, () => {
-  console.log(`App is listening at http://localhost:${PORT}`);
-});
+httpServer.listen(PORT, () => {});

@@ -16,15 +16,12 @@ Router.get("/:userId", async (req, res) => {
     const followingIds = user.following.map(
       (followingUser) => followingUser.user_id
     );
-    console.log(followersIds);
     // Find all tweets where the authorId is not in the followers or followings
     const allTweets = await TweetModel.find({
       authorId: {
         $nin: [...followersIds, ...followingIds, userId],
       },
     });
-
-    console.log("allTweets", allTweets);
 
     res.status(200).send({
       status: 1,

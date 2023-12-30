@@ -36,7 +36,6 @@ Router.put("/", async (req, res) => {
         msg: "Comment doesn't exist.",
       });
     }
-    console.log(comment[0]);
     // Check if userId is not already in the commentSeen array
     if (!comment[0].commentSeen.includes(userId)) {
       // If userId is not in the array, add it

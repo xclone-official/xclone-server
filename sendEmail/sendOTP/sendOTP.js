@@ -18,7 +18,6 @@ Router.post("/:email", async (req, res) => {
       });
     }
     const randomSixInteger = Math.floor(Math.random() * 1000000);
-    console.log(randomSixInteger);
     isUserExist.otp = randomSixInteger;
     await isUserExist.save();
     await sendEmail("send_otp", email, randomSixInteger);

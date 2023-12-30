@@ -18,7 +18,7 @@ Router.put("/:userId/:userName", async (req, res) => {
     }
 
     const isUserNameExist = await UserModel.findOne({
-      username: userName.split().toLowerCase(),
+      username: userName?.split()?.toLowerCase(),
     });
     if (isUserNameExist) {
       return res.status(200).send({
