@@ -1,5 +1,8 @@
 const UserModel = require("../../Models/UserModel/UserModel");
 const upload = require("../../multer/coverpic");
+const {
+  uploadOnCloudinary,
+} = require("../../uploadonCloudinary/uploadOnCloudinary");
 
 const Router = require("express").Router();
 
@@ -20,7 +23,14 @@ Router.put("/:id", upload.single("cover"), async (req, res) => {
         status: 2,
       });
     }
-    isUserExist.coverpic = req.file.path;
+    const coverImage = await uploadOnCloudinary(req.file.path);
+    if (!coverImage) {
+      return res.status(200).send({
+        msg: "coverImage is empty",
+        status: 2,
+      });
+    }
+    isUserExist.coverpic = coverImage.url;
     isUserExist.save();
     return res.status(200).send({
       msg: "Updated Successfully!",

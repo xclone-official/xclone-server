@@ -2,6 +2,9 @@ const Router = require("express").Router();
 const UserModel = require("../../Models/UserModel/UserModel");
 const { sendEmail } = require("../../emailType/emailType");
 const upload = require("../../multer/profilepic");
+const {
+  uploadOnCloudinary,
+} = require("../../uploadonCloudinary/uploadOnCloudinary");
 require("dotenv").config();
 function generateRandomNumber() {
   const length = 50;
@@ -19,11 +22,6 @@ function generateRandomNumber() {
 // Example usage:
 const randomNum = generateRandomNumber();
 
-Router.get("/", (req, res) => {
-  res.send({
-    msg: "Success",
-  });
-});
 function isEmailValid(email) {
   // Regular expression for basic email validation
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -54,21 +52,28 @@ Router.post("/", upload.single("profilepic"), async (req, res) => {
       });
     }
 
-    // console.log(typeof is_verified);
-    // console.log("is_verified", is_verified);
-    // console.log(is_verified === true ? "" : randomNum);
-
     // Check if email or username already exist
     const isUserExist = await UserModel.findOne({
       $or: [{ email }, { username }],
     });
+
+    const profileLocalPath = req.file.path;
+
+    const profile = await uploadOnCloudinary(profileLocalPath);
+
+    if (!profile) {
+      return res.status(200).send({
+        status: 5,
+        msg: "Profile is required.",
+      });
+    }
     if (!isUserExist) {
       const user = await UserModel.create({
         fullname: fullname,
         email: email,
         username: username,
         password: password,
-        profilepicture: req.file.path || [],
+        profilepicture: profile?.url || "",
         coverpic: req.body.coverpic || "",
         bio: bio,
         location: location,

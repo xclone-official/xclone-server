@@ -1,6 +1,9 @@
 const TweetModel = require("../../Models/TweetModel/TweetModel");
 const UserModel = require("../../Models/UserModel/UserModel");
 const upload = require("../../multer/tweetmedia");
+const {
+  uploadOnCloudinary,
+} = require("../../uploadonCloudinary/uploadOnCloudinary");
 
 const Router = require("express").Router();
 
@@ -24,10 +27,7 @@ Router.post("/", upload.array("tweetmedia", 2), async (req, res) => {
       if (isUserExist) {
         if (parseInt(isAuthorIdMatched) === parseInt(authorId)) {
           const tweetContent = req.body.tweetContent || "";
-          // const authorName = req.body.authorName || "";
           const authorId = req.body.authorId || "";
-          // const authorUsername = req.body.authorUsername || "";
-          // const authorProfile = req.body.authorProfile || "";
           const likes = req.body.likes || [];
           const comments = req.body.comments || [];
           const quotedTweet = req.body.quotedTweet || "";
@@ -38,21 +38,21 @@ Router.post("/", upload.array("tweetmedia", 2), async (req, res) => {
           // Check if there are uploaded files
           if (req.files && req.files.length > 0) {
             for (let file of req.files) {
+              const tweetMedia = await uploadOnCloudinary(file.path);
+
+              if (!tweetMedia) return null;
               let mimeType = file.mimetype;
               if (mimeType.startsWith("image")) {
-                images.push(file.path);
+                images.push(tweetMedia.url);
               } else if (mimeType.startsWith("video")) {
-                video.push(file.path);
+                video.push(tweetMedia.url);
               }
             }
           }
 
           const newTweet = new TweetModel({
             tweetContent,
-            // authorName,
             authorId,
-            // authorUsername,
-            // authorProfile,
             likes,
             comments,
             quotedTweet,
