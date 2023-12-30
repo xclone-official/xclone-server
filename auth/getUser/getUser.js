@@ -14,7 +14,7 @@ Router.get("/:identifier", async (req, res) => {
     let getUser;
     if (isObjectId) {
       // If it's a valid ObjectId, query by _id
-      getUser = await UserModel.findOne({ _id: identifier });
+      getUser = await UserModel.findById(identifier);
     } else {
       // If it's not a valid ObjectId, query by username
       getUser = await UserModel.findOne({ username: identifier });

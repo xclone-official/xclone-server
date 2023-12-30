@@ -71,7 +71,7 @@ Router.post("/", upload.single("profilepic"), async (req, res) => {
       const user = await UserModel.create({
         fullname: fullname,
         email: email,
-        username: username,
+        username: username.trim().toLowerCase(),
         password: password,
         profilepicture: profile?.url || "",
         coverpic: req.body.coverpic || "",

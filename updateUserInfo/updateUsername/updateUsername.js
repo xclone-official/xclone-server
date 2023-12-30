@@ -17,7 +17,9 @@ Router.put("/:userId/:userName", async (req, res) => {
       });
     }
 
-    const isUserNameExist = await UserModel.findOne({ username: userName });
+    const isUserNameExist = await UserModel.findOne({
+      username: userName.split().toLowerCase(),
+    });
     if (isUserNameExist) {
       return res.status(200).send({
         status: 3,
@@ -25,7 +27,10 @@ Router.put("/:userId/:userName", async (req, res) => {
       });
     }
 
-    await UserModel.findByIdAndUpdate({ _id: userId }, { username: userName });
+    await UserModel.findByIdAndUpdate(
+      { _id: userId },
+      { username: userName.split().toLowerCase() }
+    );
     const findTheUser = await UserModel.findById(userId);
     return res.status(200).send({
       status: 1,
