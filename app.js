@@ -204,13 +204,11 @@ io.on("connection", (socket) => {
 const PORT = process.env.PORT;
 
 const helmet = require("helmet");
-const morgan = require("morgan");
 const path = require("path");
 const UserModel = require("./Models/UserModel/UserModel");
 const MessageModel = require("./Models/MessageModel/MessageModel");
 app.use(express.json());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
-app.use(morgan("common"));
 
 const corsOptions = {
   origin: FRONTEND_WEBSITE, // ReactJS URL
