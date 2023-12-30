@@ -8,12 +8,14 @@ Router.get("/:identifier", async (req, res) => {
     identifier = identifier && identifier.trim(); // Remove leading and trailing spaces
     console.log("Identifier:", identifier);
 
-    // Check if the identifier is a valid ObjectId
-    const isObjectId = mongoose.Types.ObjectId.isValid(identifier);
+    // Check if the identifier looks like a valid ObjectId
+    const objectIdPattern = /^[0-9a-fA-F]{24}$/;
+    const isObjectId = objectIdPattern.test(identifier);
 
     let getUser;
+    console.log("isObjectId", isObjectId);
     if (isObjectId) {
-      // If it's a valid ObjectId, query by _id
+      // If it looks like a valid ObjectId, query by _id
       getUser = await UserModel.findById(identifier);
     } else {
       // If it's not a valid ObjectId, query by username
