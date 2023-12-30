@@ -1,17 +1,13 @@
 const Router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const UserModel = require("../../Models/UserModel/UserModel");
-Router.get("/", (req, res) => {
-  res.send({
-    msg: "Success",
-  });
-});
 
 Router.post("/", async (req, res) => {
   try {
     const { username, password } = req.body;
     // console.log(username, password);
-    const updatedUserName = username?.toLowerCase();
+    const updatedUserName = username?.trim()?.toLowerCase();
+    console.log(updatedUserName);
     const isUserExist = await UserModel.findOne({ username: updatedUserName });
     if (isUserExist) {
       const isAccountActivated = await isUserExist.isActivated;
