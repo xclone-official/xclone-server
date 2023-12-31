@@ -51,10 +51,10 @@ Router.post("/", upload.single("profilepic"), async (req, res) => {
         msg: "Email is not valid.",
       });
     }
-
+    const newUsername = email?.trim()?.toLowerCase();
     // Check if email or username already exist
     const isUserExist = await UserModel.findOne({
-      $or: [{ email }, { username }],
+      $or: [{ email }, { newUsername }],
     });
 
     const profileLocalPath = req.file.path;
@@ -71,7 +71,7 @@ Router.post("/", upload.single("profilepic"), async (req, res) => {
       const user = await UserModel.create({
         fullname: fullname,
         email: email,
-        username: username?.trim()?.toLowerCase(),
+        username: newUsername,
         password: password,
         profilepicture: profile?.url || "",
         coverpic: req.body.coverpic || "",
